@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Project</string>
+    <string name="see_all">See all</string>
+    <string name="top_movies">Top Movies</string>
+    <string name="upcoming_movies">Upcoming Movies</string>
     <string name="cinema_ticket_booking">Cinema Ticket Booking</string>
     <string name="discover_and_book_the_lastest_n_movies_at_your_favourite_cinemas_n_easy_and_fast">Discover and book the lastest \n movies at your favourite cinemas.\n Easy and fast!</string>
     <string name="get_started">Get Started</string>
