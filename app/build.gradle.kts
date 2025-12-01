@@ -41,6 +41,7 @@ android {
 dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
+    implementation(libs.firebase.auth.ktx)   // ← THÊM DÒNG NÀY
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -50,3 +51,4 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.android.material:material:1.11.0")
 }
+apply(plugin = "com.google.gms.google-services")
