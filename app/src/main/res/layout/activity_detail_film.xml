@@ -71,6 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:contentDescription="Nút lưu phim vào danh sách bookmark"
                     app:srcCompat="@drawable/bookmark"
                     app:tint="@color/white" />
 

@@ -3,30 +3,30 @@ package com.finalexam.project.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.finalexam.project.R
-import com.finalexam.project.databinding.ViewholderMovieBinding // Sử dụng layout của Movie Item
-import com.finalexam.project.model.Film // Sử dụng Model Film
+import com.finalexam.project.databinding.ViewholderMovieBinding
+import com.finalexam.project.model.Film
 import java.text.NumberFormat
 import java.util.Locale
 
 /**
- * Adapter chuyên biệt cho BookmarkFragment.
- * Hiển thị danh sách các đối tượng Film đã được lưu (bookmarked).
- * Mục đích chính là xử lý logic BỎ LƯU (Unbookmark).
+ * Adapter chuyên biệt cho BookmarkFragment, sử dụng ListAdapter và DiffUtil.
+ * Mục đích chính là xử lý logic BỎ LƯU (Unbookmark) và hiển thị danh sách.
+ * Sử dụng ListAdapter giúp cập nhật UI mượt mà hơn khi item bị xóa.
  */
 class BookmarkAdapter(
-    // Danh sách các phim đã lưu
-    private val items: MutableList<Film>,
     private val context: Context,
-    // Listener cho sự kiện khi người dùng nhấn vào nút Bookmark/Unbookmark (hành động BỎ LƯU)
-    private val onUnbookmarkClickListener: (Film, Int) -> Unit,
-    // Listener cho sự kiện khi người dùng nhấn vào toàn bộ item (đi đến DetailActivity)
+    // Listener cho sự kiện khi người dùng nhấn vào nút Unbookmark (chỉ cần đối tượng Film)
+    private val onUnbookmarkClickListener: (Film) -> Unit,
+    // Listener cho sự kiện khi người dùng nhấn vào toàn bộ item
     private val onItemClickListener: (Film) -> Unit
-) : RecyclerView.Adapter<BookmarkAdapter.ViewHolder>() {
+) : ListAdapter<Film, BookmarkAdapter.ViewHolder>(FilmDiffCallback()) {
 
     // Định dạng tiền tệ cho Việt Nam
     private val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
@@ -45,14 +45,15 @@ class BookmarkAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val film = items[position]
+        // Sử dụng getItem(position) của ListAdapter để lấy Film
+        val film = getItem(position)
 
         // 1. Tải Poster Phim bằng Glide
         val requestOptions = RequestOptions().transform(CenterCrop())
         Glide.with(context)
-            .load(film.Poster) // Truy cập thuộc tính Poster của Film
+            .load(film.Poster)
             .apply(requestOptions)
-            .placeholder(R.drawable.ic_launcher_background) // Cần có placeholder
+            .placeholder(R.drawable.ic_launcher_background)
             .into(holder.binding.ivMoviePoster)
 
         // 2. Thiết lập dữ liệu (Sử dụng thuộc tính PascalCase)
@@ -61,29 +62,34 @@ class BookmarkAdapter(
         holder.binding.tvRating.text = film.Imdb.toString()
         holder.binding.tvPrice.text = formatter.format(film.price)
 
-        // 3. Hiển thị icon Bookmark đã lưu (vì đây là danh sách phim đã lưu)
-        // Icon này sẽ tượng trưng cho nút "Unbookmark"
+        // 3. Hiển thị icon Bookmark đã lưu (tượng trưng cho nút "Unbookmark")
         holder.binding.btnBookmark.setImageResource(R.drawable.bookmark)
 
         // 4. Xử lý sự kiện BỎ LƯU (Unbookmark)
         holder.binding.btnBookmark.setOnClickListener {
-            onUnbookmarkClickListener(film, position)
+            // Gọi listener với đối tượng film hiện tại, Fragment sẽ xử lý logic ViewModel
+            onUnbookmarkClickListener(film)
         }
 
-        // 5. Xử lý sự kiện bấm vào toàn bộ Item (đi đến DetailActivity)
+        // 5. Xử lý sự kiện bấm vào toàn bộ Item
         holder.binding.root.setOnClickListener {
             onItemClickListener(film)
         }
     }
 
-    override fun getItemCount(): Int = items.size
-
     /**
-     * Hàm tiện ích để cập nhật danh sách phim từ nguồn dữ liệu (Firestore)
+     * DiffUtil Callback để so sánh sự khác biệt giữa hai danh sách,
+     * giúp RecyclerView hoạt động hiệu quả hơn.
      */
-    fun updateData(newFilms: List<Film>) {
-        items.clear()
-        items.addAll(newFilms)
-        notifyDataSetChanged()
+    class FilmDiffCallback : DiffUtil.ItemCallback<Film>() {
+        override fun areItemsTheSame(oldItem: Film, newItem: Film): Boolean {
+            // So sánh dựa trên ID duy nhất (Imdb)
+            return oldItem.Imdb == newItem.Imdb
+        }
+
+        override fun areContentsTheSame(oldItem: Film, newItem: Film): Boolean {
+            // So sánh toàn bộ nội dung của hai đối tượng Film
+            return oldItem == newItem
+        }
     }
 }

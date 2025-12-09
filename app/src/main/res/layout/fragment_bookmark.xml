@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="ĐÃ LƯU (BOOKMARK)"
+        android:text="PHIM ĐÃ LƯU"
         android:textColor="@color/white"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -23,19 +23,50 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- RecyclerView để hiển thị danh sách các mục đã lưu -->
-    <!-- Khi lập trình Kotlin, chúng ta sẽ dùng GridLayoutManager với spanCount=2
-         để hiển thị 2 phim trên 1 hàng, giải quyết vấn đề của bạn. -->
+    <!-- Đã đổi ID thành bookmarkRecyclerView để khớp với code Kotlin -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewBookmark"
+        android:id="@+id/bookmarkRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="8dp"
+        android:paddingBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitleBookmark"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:spanCount="2"
         tools:listitem="@layout/viewholder_movie"
         tools:itemCount="5" />
 
+    <!-- Loading State: Hiển thị khi đang tải dữ liệu -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleBookmark" />
+
+    <!-- Empty State: Hiển thị khi danh sách lưu trống -->
+    <TextView
+        android:id="@+id/emptyListTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:gravity="center"
+        android:text="Danh sách phim đã lưu của bạn trống.\nHãy tìm kiếm những bộ phim yêu thích và thêm vào danh sách!"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleBookmark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
