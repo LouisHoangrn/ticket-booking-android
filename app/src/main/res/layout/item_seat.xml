@@ -5,6 +5,7 @@
     android:background="@drawable/ic_seat_available"
     android:textSize="12sp"
     android:layout_margin="4dp"
+    android:id="@+id/seatTxt"
     >
 
 </TextView>
