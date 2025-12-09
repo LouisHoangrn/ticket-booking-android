@@ -24,6 +24,7 @@ class SeatListActivity : AppCompatActivity() {
     private var price: Double = 0.0
     private var number: Int = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySeatListBinding.inflate(layoutInflater)
