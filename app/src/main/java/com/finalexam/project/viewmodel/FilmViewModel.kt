@@ -29,7 +29,7 @@ class FilmViewModel(private val repository: BookmarkRepository) : ViewModel() {
     }
 
     /**
-     * Thao tác THÊM bookmark (Dùng cho DetailFilmActivity).
+     * Thao tác THÊM bookmark (Dùng cho DetailFilmActivity ).
      * @param film: Đối tượng Film cần thêm.
      */
     fun addBookmark(film: Film) {

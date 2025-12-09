@@ -117,7 +117,7 @@ class BookmarkFragment : Fragment() {
     }
 
     /**
-     * Điều hướng đến màn hình chi tiết phim.
+     * Điều hướng đến màn hình chi tiết phim .
      */
     private fun navigateToDetail(film: Film) {
         val intent = Intent(requireContext(), DetailFilmActivity::class.java)

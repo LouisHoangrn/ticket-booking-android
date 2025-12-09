@@ -18,7 +18,7 @@ import java.util.Locale
 /**
  * Adapter chuyên biệt cho BookmarkFragment, sử dụng ListAdapter và DiffUtil.
  * Mục đích chính là xử lý logic BỎ LƯU (Unbookmark) và hiển thị danh sách.
- * Sử dụng ListAdapter giúp cập nhật UI mượt mà hơn khi item bị xóa.
+ * Sử dụng ListAdapter giúp cập nhật UI mượt mà hơn khi item bị xóa .
  */
 class BookmarkAdapter(
     private val context: Context,

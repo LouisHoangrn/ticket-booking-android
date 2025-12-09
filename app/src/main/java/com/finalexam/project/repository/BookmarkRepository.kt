@@ -96,7 +96,7 @@ class BookmarkRepository(
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Xử lý lỗi đọc dữ liệu từ Firebase (Ví dụ: Lỗi quyền truy cập)
+                // Xử lý lỗi đọc dữ liệu từ Firebase (Ví dụ: Lỗi quyền truy cập )
                 Log.e(TAG, "Lỗi đọc dữ liệu Bookmarks từ Firebase: ${error.message}")
                 liveData.value = emptyList()
             }

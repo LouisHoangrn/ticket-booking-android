@@ -196,7 +196,7 @@ class DetailFilmActivity : AppCompatActivity() {
     }
 
     /**
-     * Cập nhật icon và màu sắc của nút Bookmark.
+     * Cập nhật icon và màu sắc của nút Bookmark2.
      */
     private fun updateBookmarkButton(bookmarked: Boolean) {
         if (bookmarked) {

@@ -7,7 +7,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.auth.FirebaseAuth
 
 /**
- * Factory để tạo FilmViewModel và inject BookmarkRepository cùng các dependencies.
+ * Factory để tạo FilmViewModel và inject BookmarkRepository cùng các dependencies ngu.
  */
 class FilmViewModelFactory(
     private val database: FirebaseDatabase,

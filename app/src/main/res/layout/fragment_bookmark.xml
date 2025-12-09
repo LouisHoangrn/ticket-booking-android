@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- RecyclerView để hiển thị danh sách các mục đã lưu -->
-    <!-- Đã đổi ID thành bookmarkRecyclerView để khớp với code Kotlin -->
+    <!-- Đã đổi ID thành bookmarkRecyclerView để khớp với code Kotlin  -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bookmarkRecyclerView"
         android:layout_width="0dp"
