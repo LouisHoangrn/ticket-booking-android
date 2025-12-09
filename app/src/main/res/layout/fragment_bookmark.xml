@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".fragment.BookmarkFragment">
+
+    <!-- Tiêu đề lớn cho màn hình Bookmark -->
+    <TextView
+        android:id="@+id/tvTitleBookmark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="ĐÃ LƯU (BOOKMARK)"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- RecyclerView để hiển thị danh sách các mục đã lưu -->
+    <!-- Khi lập trình Kotlin, chúng ta sẽ dùng GridLayoutManager với spanCount=2
+         để hiển thị 2 phim trên 1 hàng, giải quyết vấn đề của bạn. -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewBookmark"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleBookmark"
+        tools:listitem="@layout/viewholder_movie"
+        tools:itemCount="5" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

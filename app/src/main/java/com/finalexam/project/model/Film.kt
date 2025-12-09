@@ -12,11 +12,13 @@ data class Film(
     var Poster: String?=null,
     var time: String?=null,
     var Trailer:String?=null,
-    var Imdb:Int=0,
+    var Imdb:Int=0, // Dùng làm Rating
     var Year:Int=0,
     var price: Double=0.0,
     var Genre: ArrayList<String> = ArrayList(),
-    var Casts: ArrayList<Cast> = ArrayList()
+    var Casts: ArrayList<Cast> = ArrayList(),
+    // THÊM: Cần thiết cho trạng thái UI trên Adapter
+    var isBookmarked: Boolean = false
 ) : Serializable
 {
     // Constructor không tham số (BẮT BUỘC cho Firebase Realtime Database)
@@ -30,6 +32,7 @@ data class Film(
         0,    // Year
         0.0,  // price
         ArrayList(), // Genre
-        ArrayList()  // Casts
+        ArrayList(),  // Casts
+        false // isBookmarked
     )
 }
