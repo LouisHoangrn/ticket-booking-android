@@ -23,8 +23,10 @@ import com.finalexam.project.fragment.BookmarkFragment
 import com.finalexam.project.fragment.CartFragment
 import com.finalexam.project.model.Film
 import com.finalexam.project.model.SliderItems
+import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -32,8 +34,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {

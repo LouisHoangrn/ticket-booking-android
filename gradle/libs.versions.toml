@@ -15,6 +15,7 @@ firebaseDatabase = "22.0.1"
 coreKtx = "1.17.0"
 viewpager2 = "1.1.0"
 recyclerview = "1.4.0"
+firebaseSessions = "3.0.3"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -34,6 +35,7 @@ recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version
 
 # Firebase using BOM
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-sessions = { group = "com.google.firebase", name = "firebase-sessions", version.ref = "firebaseSessions" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
