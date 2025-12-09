@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- ĐÃ THÊM LẠI NÚT HOME -->
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/btn_1"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_bookmark"
+        android:icon="@drawable/bookmark"
+        android:title="Bookmark" />
+
+    <item
+        android:id="@+id/nav_cart"
+        android:icon="@drawable/btn_3"
+        android:title="Cart" />
+</menu>

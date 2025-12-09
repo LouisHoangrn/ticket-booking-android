@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
+
+    <!-- Container cho item, có bo tròn nhẹ -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#2C3A4F"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+            <!-- 1. Image Placeholder (Ảnh sản phẩm/phim) -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivItemImage"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_green_rounded"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <!-- 2. Tên sản phẩm/phim -->
+            <TextView
+                android:id="@+id/tvItemName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
+                android:text="Tên Phim Dài"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintEnd_toStartOf="@id/clQuantityControl"
+                app:layout_constraintStart_toEndOf="@id/ivItemImage"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- 3. Giá tiền đơn vị -->
+            <TextView
+                android:id="@+id/tvItemPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/yellow"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@id/tvItemName"
+                app:layout_constraintTop_toBottomOf="@id/tvItemName"
+                tools:text="75.000 VNĐ" />
+
+            <!-- 4. Thông tin Date/Time/Seat (Mới) -->
+            <TextView
+                android:id="@+id/tvItemDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/tvItemName"
+                app:layout_constraintEnd_toStartOf="@id/clQuantityControl"
+                app:layout_constraintTop_toBottomOf="@id/tvItemPrice"
+                tools:text="Ngày: 15/12 | Giờ: 20:30 | Ghế: A1, A2" />
+
+            <!-- 5. Nút Xóa (Delete/Remove) -->
+            <ImageButton
+                android:id="@+id/btnRemoveItem"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="4dp"
+                android:paddingTop="12dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/outline_block_24"
+                android:contentDescription="Xóa khỏi giỏ hàng"
+                app:tint="@color/design_default_color_error"
+                app:layout_constraintStart_toStartOf="@id/tvItemName"
+                app:layout_constraintTop_toBottomOf="@id/tvItemDetails" />
+
+
+            <!-- 6. Khu vực điều khiển số lượng -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clQuantityControl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <!-- Nút Giảm -->
+                <ImageButton
+                    android:id="@+id/btnQuantityMinus"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/light_black_bg"
+                    android:src="@drawable/outline_arrow_back_ios_new_24"
+                    android:contentDescription="Giảm số lượng"
+                    app:tint="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Số lượng -->
+                <TextView
+                    android:id="@+id/tvQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="20dp"
+                    android:text="1"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:layout_marginHorizontal="8dp"
+                    app:layout_constraintStart_toEndOf="@id/btnQuantityMinus"
+                    app:layout_constraintEnd_toStartOf="@id/btnQuantityPlus"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <!-- Nút Tăng -->
+                <ImageButton
+                    android:id="@+id/btnQuantityPlus"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/light_black_bg"
+                    android:src="@drawable/outline_arrow_forward_ios_24"
+                    android:contentDescription="Tăng số lượng"
+                    app:tint="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
