@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.finalexam.project"
     compileSdk = 36
 
@@ -41,7 +42,6 @@ android {
 dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
-    implementation(libs.firebase.auth.ktx)   // ← THÊM DÒNG NÀY
     implementation("com.google.firebase:firebase-auth")
 
     implementation(libs.appcompat)
@@ -49,14 +49,16 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    implementation("com.github.Dimezis:BlurView:version-1.6.6")
+
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.core.ktx)
     implementation(libs.viewpager2)
     implementation(libs.recyclerview)
+    implementation(libs.firebase.sessions)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.android.material:material:1.11.0")
 }
-apply(plugin = "com.google.gms.google-services")
