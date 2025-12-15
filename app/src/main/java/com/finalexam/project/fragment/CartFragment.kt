@@ -67,7 +67,8 @@ class CartFragment : Fragment(), CartActionListener {
         super.onViewCreated(view, savedInstanceState)
 
         // 1. Khởi tạo Adapter và gán listener
-        cartAdapter = CartAdapter(this)
+        // SỬA LỖI: Cần truyền requireContext() làm tham số đầu tiên cho Context
+        cartAdapter = CartAdapter(requireContext(), this)
 
         // 2. Thiết lập RecyclerView
         setupRecyclerView()
@@ -201,7 +202,7 @@ class CartFragment : Fragment(), CartActionListener {
 
 /**
  * ViewModel Factory cần thiết để cung cấp dependency (FirebaseDatabase và userId)
- * cho CartViewModel khi nó được khởi t  ạo.
+ * cho CartViewModel khi nó được khởi tạo.
  */
 class CartViewModelFactory(
     private val database: FirebaseDatabase,

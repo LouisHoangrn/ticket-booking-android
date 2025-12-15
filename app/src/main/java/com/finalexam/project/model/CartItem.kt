@@ -10,6 +10,7 @@ data class CartItem(
     val filmId: Int = 0,
     val filmTitle: String = "",
     val filmPrice: Double = 0.0, // Giá 1 vé
+    val filmPosterUrl: String = "", // ĐÃ THÊM: URL poster của phim
     val selectedDate: String = "",
     val selectedTime: String = "",
     val seatNames: List<String> = emptyList(), // Danh sách tên ghế (ví dụ: ["A1", "A2"])

@@ -42,6 +42,9 @@ class DetailFilmActivity : AppCompatActivity() {
     private var filmImdbId: Int = -1
     private val TAG = "DetailFilmActivity"
 
+    // GIÁ VÉ MẶC ĐỊNH (Đồng bộ với giá đã hardcode trong SeatListActivity)
+    private val SINGLE_TICKET_PRICE = 75000.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -67,9 +70,7 @@ class DetailFilmActivity : AppCompatActivity() {
         }
         currentFilm = film
 
-        // ** SỬA LỖI 1: Xử lý an toàn thuộc tính Imdb **
-        // Nếu film.Imdb là Double, ta cần chuyển nó sang Int để khớp với Repository.
-        // Giả định film.Imdb là Double. Nếu nó là String, bạn cần chuyển nó sang Int/String phù hợp.
+        // SỬA LỖI 1: Xử lý an toàn thuộc tính Imdb
         filmImdbId = when (film.Imdb) {
             is Double -> film.Imdb.toInt()
             is Int -> film.Imdb
@@ -126,9 +127,18 @@ class DetailFilmActivity : AppCompatActivity() {
         }
 
 
+        // *** SỬA LỖI TRUYỀN DỮ LIỆU PHIM CHO SEATLISTACTIVITY ***
         binding.buyTicketBtn.setOnClickListener {
-            val intent = Intent(this, SeatListActivity::class.java)
-            intent.putExtra("film", film)
+            val intent = Intent(this, SeatListActivity::class.java).apply {
+                // Truyền ID phim (dùng IMDB ID)
+                putExtra(SeatListActivity.EXTRA_FILM_ID, filmImdbId)
+                // Truyền Tên phim
+                putExtra(SeatListActivity.EXTRA_FILM_TITLE, currentFilm.Title)
+                // Truyền Giá vé (sử dụng giá hardcode, cần được điều chỉnh nếu có giá động)
+                putExtra(SeatListActivity.EXTRA_FILM_PRICE, SINGLE_TICKET_PRICE)
+                // *** THÊM MỚI: Truyền URL Poster ***
+                putExtra(SeatListActivity.EXTRA_FILM_POSTER, currentFilm.Poster)
+            }
             startActivity(intent)
         }
 
@@ -149,7 +159,6 @@ class DetailFilmActivity : AppCompatActivity() {
     private fun checkBookmarkStatus() {
         if (filmImdbId == -1) return
 
-        // ** SỬA LỖI 2: Xử lý Runtime Crash bằng try-catch **
         lifecycleScope.launch {
             try {
                 // Gọi đúng hàm `isFilmBookmarked` và truyền đúng kiểu `Int`
@@ -157,7 +166,6 @@ class DetailFilmActivity : AppCompatActivity() {
                 updateBookmarkButton(isFilmBookmarked)
             } catch (e: Exception) {
                 Log.e(TAG, "Lỗi khi kiểm tra trạng thái bookmark: ${e.message}")
-                // Giữ nguyên trạng thái mặc định nếu kiểm tra thất bại
                 Toast.makeText(this@DetailFilmActivity, "Lỗi kết nối Firebase.", Toast.LENGTH_SHORT).show()
             }
         }
@@ -172,7 +180,6 @@ class DetailFilmActivity : AppCompatActivity() {
             return
         }
 
-        // ** SỬA LỖI 3: Xử lý Runtime Crash bằng try-catch cho Coroutine **
         lifecycleScope.launch {
             try {
                 if (isFilmBookmarked) {
@@ -188,7 +195,6 @@ class DetailFilmActivity : AppCompatActivity() {
                 }
                 updateBookmarkButton(isFilmBookmarked)
             } catch (e: Exception) {
-                // Nếu xảy ra lỗi (ví dụ: mất kết nối, lỗi dữ liệu), ta sẽ ghi log và thông báo cho người dùng
                 Log.e(TAG, "Lỗi khi thay đổi trạng thái bookmark: ${e.message}")
                 Toast.makeText(this@DetailFilmActivity, "Lỗi: Không thể thay đổi trạng thái lưu.", Toast.LENGTH_SHORT).show()
             }
@@ -200,11 +206,9 @@ class DetailFilmActivity : AppCompatActivity() {
      */
     private fun updateBookmarkButton(bookmarked: Boolean) {
         if (bookmarked) {
-            // SỬA LỖI 4: Sử dụng ContextCompat để lấy màu (vì getColor() đã lỗi thời)
             binding.bookmarkBtn.setImageResource(R.drawable.outline_bookmark_added_24)
             binding.bookmarkBtn.setColorFilter(ContextCompat.getColor(this, R.color.white))
         } else {
-            // SỬA LỖI 5: Sử dụng ContextCompat để lấy màu
             binding.bookmarkBtn.setImageResource(R.drawable.bookmark)
             binding.bookmarkBtn.setColorFilter(ContextCompat.getColor(this, R.color.white))
         }
