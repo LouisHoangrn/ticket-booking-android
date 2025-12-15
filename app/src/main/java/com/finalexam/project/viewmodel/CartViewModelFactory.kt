@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.FirebaseDatabase
 
 /**
- * F actory để khởi tạo CartViewModel với các tham số yêu cầu (Database và UserId).
+ * F actory để kh ởi tạo CartViewModel với các tham số yêu cầu (Database và UserId).
  */
 class CartViewModelFactory(
     private val database: FirebaseDatabase,

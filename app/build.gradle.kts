@@ -47,7 +47,7 @@ dependencies {
 
     implementation("com.github.Dimezis:BlurView:version-1.6.6")
 
-    // -- - DEPENDENCIES MỚI CHO API/NETWORK VÀ COROUTINES ---
+    // --  - DEPENDENCIES MỚI CHO API/NETWORK VÀ COROUTINES ---
     // Retrofit cho các cuộc gọi API REST
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     // Converter để tự động phân tích JSON sang các data class Kotlin

@@ -1,7 +1,7 @@
 package com.finalexam.project.adapter
 
 /**
- * Interface để tr uyền dữ liệu ngày được chọn từ DateAdapter về Activity/Fragment.
+ * Interface để tr uy ền dữ liệu ngày được chọn từ DateAdapter về Activity/Fragment.
  */
 interface OnDateSelectedListener {
     /**

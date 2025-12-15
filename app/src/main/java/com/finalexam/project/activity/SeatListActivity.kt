@@ -168,7 +168,7 @@ class SeatListActivity : AppCompatActivity(),
 
         val totalAmount = currentNumSelected * SINGLE_TICKET_PRICE
 
-        // Tạo đối tượng CartItem
+        // Tạo đối tượng Ca rtItem
         val cartItem = CartItem(
             filmId = 1, // Mock ID
             filmTitle = FILM_TITLE,

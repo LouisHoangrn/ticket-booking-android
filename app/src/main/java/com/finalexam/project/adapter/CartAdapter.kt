@@ -12,7 +12,7 @@ import java.text.NumberFormat
 import java.util.Locale
 
 /**
- * Interface cho các hành động trên item giỏ hàng (hiện tại là Xóa).
+ * Interface cho các hành động trê n item giỏ hàng (hiện tại là Xóa).
  */
 interface CartActionListener {
     fun onRemoveItem(cartItemId: String)
@@ -26,7 +26,7 @@ interface CartActionListener {
 class CartAdapter(private val listener: CartActionListener) :
     ListAdapter<CartItem, CartAdapter.CartViewHolder>(CartItemDiffCallback()) {
 
-    // Sử dụng định dạng tiền tệ Việt Nam (VNĐ) 
+    // Sử dụng định dạng tiền tệ Việt Nam (VNĐ)
     private val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
 
     inner class CartViewHolder(private val binding: ViewholderCartItemBinding) :

@@ -11,7 +11,7 @@ import retrofit2.http.POST
 interface PaymentService {
 
     /**
-     * Phương thức POST giả lập để xử lý thanh toán.
+     * Phương thức POST giả lập để xử lý t hanh toán.
      * Trong một ứng dụng thực tế, đây sẽ là đường dẫn đến cổng thanh toán của bạn.
      *
      * @param request Dữ liệu thanh toán bao gồm giỏ hàng và tổng tiền.

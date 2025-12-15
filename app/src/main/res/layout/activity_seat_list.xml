@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- Màn hì nh chiếu -->
+                <!-- Màn hì  nh chiếu -->
                 <ImageView
                     android:id="@+id/cinemaScreen"
                     android:layout_width="0dp"

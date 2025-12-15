@@ -39,7 +39,7 @@ class CartViewModel(
 
     private val cartRef: DatabaseReference = database.getReference("carts").child(userId)
 
-    // LiveData cho danh sách item trong giỏ hàng
+    // LiveData cho danh sách item trong  giỏ hàng
     private val _cartItems = MutableLiveData<List<CartItem>>()
     val cartItems: LiveData<List<CartItem>> = _cartItems
 

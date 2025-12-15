@@ -201,7 +201,7 @@ class CartFragment : Fragment(), CartActionListener {
 
 /**
  * ViewModel Factory cần thiết để cung cấp dependency (FirebaseDatabase và userId)
- * cho CartViewModel khi nó được khởi tạo. 
+ * cho CartViewModel khi nó được khởi t ạo.
  */
 class CartViewModelFactory(
     private val database: FirebaseDatabase,

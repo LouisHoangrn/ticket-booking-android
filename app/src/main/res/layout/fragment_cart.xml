@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- RecyclerView cho danh sách các mục trong giỏ hàng -->
+    <!-- Recycle rView cho danh sách các mục trong giỏ hàng -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCart"
         android:layout_width="0dp"

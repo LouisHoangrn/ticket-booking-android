@@ -5,7 +5,7 @@ package com.finalexam.project.model
  * Sử dụng cho Firebase Realtime Database.
  */
 data class CartItem(
-    // Tên thuộc tính: cartItemId, filmTitle , filmPrice, quantity, totalPrice
+    // Tên thuộc tính: cartItem Id, filmTitle , filmPrice, quantity, totalPrice
     var cartItemId: String? = null, // Key duy nhất từ Firebase
     val filmId: Int = 0,
     val filmTitle: String = "",

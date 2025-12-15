@@ -5,7 +5,7 @@ package com.finalexam.project.model
  * Giả sử API trả về trạng thái và một tin nhắn .
  */
 data class PaymentResponse(
-    val success: Boolean, // True nếu thanh toán thành công, False nếu thất bại
+    val success: Boolean, // True nếu tha nh toán thành công, False nếu thất bại
     val message: String, // Tin nhắn cho người dùng (ví dụ: "Thanh toán thành công" hoặc "Lỗi thẻ")
     val transactionId: String? // ID giao dịch nếu thành công
 )
