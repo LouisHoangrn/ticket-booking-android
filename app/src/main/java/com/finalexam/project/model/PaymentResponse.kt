@@ -2,7 +2,7 @@ package com.finalexam.project.model
 
 /**
  * Data class đại diện cho phản hồi từ API thanh toán.
- * Giả sử API trả về trạng thái và một tin nhắn.
+ * Giả sử API trả về trạng thái và một tin nhắn .
  */
 data class PaymentResponse(
     val success: Boolean, // True nếu thanh toán thành công, False nếu thất bại

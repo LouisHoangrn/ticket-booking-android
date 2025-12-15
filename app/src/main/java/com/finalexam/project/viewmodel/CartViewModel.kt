@@ -31,7 +31,7 @@ sealed class PaymentState {
  * để cung cấp các đối tượng này.
  */
 class CartViewModel(
-    // Giả định bạn có thể truyền instance FirebaseDatabase
+    // Giả định bạ n có thể truyền instance FirebaseDatabase
     database: FirebaseDatabase = FirebaseDatabase.getInstance(),
     // Giả định bạn có thể truyền userId của người dùng hiện tại
     private val userId: String = "user-test-id"

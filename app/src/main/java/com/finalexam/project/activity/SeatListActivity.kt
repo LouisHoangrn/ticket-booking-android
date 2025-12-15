@@ -180,7 +180,7 @@ class SeatListActivity : AppCompatActivity(),
             totalPrice = totalAmount
         )
 
-        // *** KHẮC PHỤC LỖI: Đổi tên hàm từ addToCart sang addItem ***
+        // *** KHẮC PHỤC LỖI: Đổi tên hàm từ addToCart sang addItem  ***
         cartViewModel.addItem(cartItem)
 
         // Hiển thị thông báo và đóng Activity

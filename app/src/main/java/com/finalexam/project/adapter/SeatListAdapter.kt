@@ -95,7 +95,7 @@ class SeatListAdapter(
 
     override fun getItemCount(): Int = seatList.size
 
-    // --- PHƯƠNG THỨC MỚI KHẮC PHỤC LỖI UNRESOLVED REFERENCE ---
+    // -- - PHƯƠNG THỨC MỚI KHẮC PHỤC LỖI UNRESOLVED REFERENCE ---
     /**
      * [FIX: Unresolved reference 'getSelectedSeats']
      * Trả về danh sách tên các ghế hiện đang được chọn.

@@ -15,7 +15,7 @@ interface PaymentService {
      * Trong một ứng dụng thực tế, đây sẽ là đường dẫn đến cổng thanh toán của bạn.
      *
      * @param request Dữ liệu thanh toán bao gồm giỏ hàng và tổng tiền.
-     * @return Kết quả phản hồi thanh toán.
+     * @return Kết quả phản hồi thanh toán .
      */
     @POST("api/checkout")
     suspend fun checkout(@Body request: PaymentRequest): PaymentResponse

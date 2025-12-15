@@ -96,7 +96,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Nút Checkout (ID: checkoutButton) -->
+        <!-- Nút Checkout (ID: check outButton) -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/checkoutButton"
             android:layout_width="0dp"

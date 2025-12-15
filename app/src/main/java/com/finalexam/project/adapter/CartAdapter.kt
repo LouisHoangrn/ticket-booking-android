@@ -26,7 +26,7 @@ interface CartActionListener {
 class CartAdapter(private val listener: CartActionListener) :
     ListAdapter<CartItem, CartAdapter.CartViewHolder>(CartItemDiffCallback()) {
 
-    // Sử dụng định dạng tiền tệ Việt Nam (VNĐ)
+    // Sử dụng định dạng tiền tệ Việt Nam (VNĐ) 
     private val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
 
     inner class CartViewHolder(private val binding: ViewholderCartItemBinding) :

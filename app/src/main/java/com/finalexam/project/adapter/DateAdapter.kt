@@ -11,7 +11,7 @@ import com.finalexam.project.databinding.ItemDateBinding
  */
 class DateAdapter(
     private val timeSlots: List<String>,
-    private val listener: OnDateSelectedListener // Sử dụng Nested Interface
+    private val listener: OnDateSelectedListener // Sử dụng Nested In terface
 ) : RecyclerView.Adapter<DateAdapter.ViewHolder>() {
 
     private var selectedPosition = 0 // Mặc định chọn ngày đầu tiên (position 0)
