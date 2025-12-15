@@ -9,14 +9,21 @@ import com.finalexam.project.R
 import com.finalexam.project.databinding.ItemSeatBinding
 import com.finalexam.project.model.Seat
 
+/**
+ * Adapter cho danh sách ghế ngồi, quản lý trạng thái chọn/bỏ chọn ghế.
+ *
+ * @param seatList Danh sách đối tượng Seat.
+ * @param context Context của ứng dụng.
+ * @param selectedSeat Listener để trả về thông tin ghế đã chọn (callback).
+ */
 class SeatListAdapter(
     private val seatList: List<Seat>,
     private val context: Context,
     private val selectedSeat: SelectedSeat
 ) : RecyclerView.Adapter<SeatListAdapter.ViewHolder>() {
 
-    // Sửa lỗi chính tả + khởi tạo đúng
-    private val selectedSeatName = ArrayList<String>()
+    // Sử dụng Set để lưu trữ tên ghế đã chọn. Set đảm bảo không có trùng lặp.
+    private val selectedSeatNames: MutableSet<String> = mutableSetOf()
 
     inner class ViewHolder(val binding: ItemSeatBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -29,48 +36,85 @@ class SeatListAdapter(
         val seat = seatList[position]
         holder.binding.seatTxt.text = seat.name
 
-        // Cập nhật giao diện theo trạng thái ghế
-        when (seat.status) {
-            Seat.SeatStatus.AVAILABLE -> {
-                holder.binding.seatTxt.setBackgroundResource(R.drawable.ic_seat_available)
-                holder.binding.seatTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
-            }
-            Seat.SeatStatus.SELECTED -> {
-                holder.binding.seatTxt.setBackgroundResource(R.drawable.ic_seat_selected)
-                holder.binding.seatTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
-            }
-            Seat.SeatStatus.UNAVAILABLE -> {
-                holder.binding.seatTxt.setBackgroundResource(R.drawable.ic_seat_unavailable)
-                holder.binding.seatTxt.setTextColor(ContextCompat.getColor(context, R.color.grey))
-            }
-        }
+        // Áp dụng kiểu dáng dựa trên trạng thái hiện tại
+        updateSeatStyle(holder.binding, seat.status)
 
-        // Xử lý click chọn/ghế
+        // Xử lý sự kiện click
         holder.binding.seatTxt.setOnClickListener {
-            if (seat.status == Seat.SeatStatus.UNAVAILABLE) return@setOnClickListener
-
-            if (seat.status == Seat.SeatStatus.AVAILABLE) {
-                // Chọn ghế
-                seat.status = Seat.SeatStatus.SELECTED
-                selectedSeatName.add(seat.name)
-            } else if (seat.status == Seat.SeatStatus.SELECTED) {
-                // Bỏ chọn ghế → PHẢI REMOVE, không phải add!
-                seat.status = Seat.SeatStatus.AVAILABLE
-                selectedSeatName.remove(seat.name)
+            // Không làm gì nếu ghế không có sẵn
+            if (seat.status == Seat.SeatStatus.UNAVAILABLE) {
+                return@setOnClickListener
             }
 
-            // Cập nhật lại item hiện tại
+            // Xử lý chuyển đổi trạng thái
+            if (seat.status == Seat.SeatStatus.AVAILABLE) {
+                // Chọn ghế: AVAILABLE -> SELECTED
+                seat.status = Seat.SeatStatus.SELECTED
+                selectedSeatNames.add(seat.name)
+            } else if (seat.status == Seat.SeatStatus.SELECTED) {
+                // Bỏ chọn ghế: SELECTED -> AVAILABLE
+                seat.status = Seat.SeatStatus.AVAILABLE
+                selectedSeatNames.remove(seat.name)
+            }
+
+            // Cập nhật lại giao diện của item đã thay đổi
             notifyItemChanged(position)
 
-            // Trả kết quả về Activity/Fragment
-            val selectedNames = selectedSeatName.joinToString(",")
-            selectedSeat.Return(selectedNames, selectedSeatName.size)
+            // Trả kết quả về Activity/Fragment thông qua callback
+            sendResult()
         }
+    }
+
+    /**
+     * Cập nhật giao diện ghế dựa trên trạng thái
+     */
+    private fun updateSeatStyle(binding: ItemSeatBinding, status: Seat.SeatStatus) {
+        when (status) {
+            Seat.SeatStatus.AVAILABLE -> {
+                binding.seatTxt.setBackgroundResource(R.drawable.ic_seat_available)
+                binding.seatTxt.setTextColor(ContextCompat.getColor(context, R.color.white))
+            }
+            Seat.SeatStatus.SELECTED -> {
+                binding.seatTxt.setBackgroundResource(R.drawable.ic_seat_selected)
+                binding.seatTxt.setTextColor(ContextCompat.getColor(context, R.color.black))
+            }
+            Seat.SeatStatus.UNAVAILABLE -> {
+                binding.seatTxt.setBackgroundResource(R.drawable.ic_seat_unavailable)
+                binding.seatTxt.setTextColor(ContextCompat.getColor(context, R.color.grey))
+            }
+        }
+    }
+
+    /**
+     * Gửi kết quả (tên ghế và số lượng) về listener
+     */
+    private fun sendResult() {
+        val selectedNamesString = selectedSeatNames.joinToString(",")
+        selectedSeat.Return(selectedNamesString, selectedSeatNames.size)
     }
 
     override fun getItemCount(): Int = seatList.size
 
+    // --- PHƯƠNG THỨC MỚI KHẮC PHỤC LỖI UNRESOLVED REFERENCE ---
+    /**
+     * [FIX: Unresolved reference 'getSelectedSeats']
+     * Trả về danh sách tên các ghế hiện đang được chọn.
+     * Phương thức này cho phép Activity truy vấn đồng bộ danh sách ghế đã chọn bất cứ lúc nào.
+     * @return List<String> Danh sách tên ghế đã chọn.
+     */
+    fun getSelectedSeats(): List<String> {
+        return selectedSeatNames.toList()
+    }
+    // -------------------------------------------------------------
+
+    /**
+     * Interface cho callback khi danh sách ghế được chọn thay đổi
+     */
     interface SelectedSeat {
+        /**
+         * @param selectedName Chuỗi các tên ghế được chọn (ví dụ: "A1,B2,C3")
+         * @param num Số lượng ghế đã chọn
+         */
         fun Return(selectedName: String, num: Int)
     }
 }

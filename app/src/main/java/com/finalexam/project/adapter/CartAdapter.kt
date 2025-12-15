@@ -1,132 +1,93 @@
 package com.finalexam.project.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.finalexam.project.R
-import com.finalexam.project.databinding.ViewholderCartItemBinding // View Binding cho layout Cart Item
+import com.finalexam.project.databinding.ViewholderCartItemBinding
 import com.finalexam.project.model.CartItem
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import java.text.NumberFormat
+import java.util.Locale
 
 /**
- * Interface để thông báo cho Fragment khi có thay đổi trong giỏ hàng (Total Price)
- * và xử lý các tương tác cần Database.
+ * Interface cho các hành động trên item giỏ hàng (hiện tại là Xóa).
  */
-interface CartUpdateListener {
-    fun onCartChanged()
-    // Thêm các phương thức để xử lý tương tác với Database
-    fun onQuantityChanged(itemKey: String, newQuantity: Int)
-    fun onRemoveItem(itemKey: String)
+interface CartActionListener {
+    fun onRemoveItem(cartItemId: String)
+    // Có thể thêm onUpdateQuantity(cartItemId: String, newQuantity: Int) nếu cần
 }
 
 /**
- * Adapter cho RecyclerView hiển thị danh sách vé trong Giỏ hàng.
- * Xử lý các tương tác: Tăng/giảm số lượng, Xóa mục.
- * LƯU Ý: Adapter này yêu cầu model CartItem.kt phải có một thuộc tính
- * lưu trữ key (cartNodeKey) của node trên Firebase.
+ * Adapter sử dụng ListAdapter để tối ưu hiệu suất khi thay đổi dữ liệu (Realtime update).
+ * Nó sử dụng các ID từ viewholder_cart_item.xml bạn đã cung cấp.
  */
-class CartAdapter(
-    private val items: MutableList<Pair<CartItem, String>>, // Sửa: Lưu cả CartItem và Key (String)
-    private val listener: CartUpdateListener // Listener để cập nhật tổng tiền và tương tác DB
-) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+class CartAdapter(private val listener: CartActionListener) :
+    ListAdapter<CartItem, CartAdapter.CartViewHolder>(CartItemDiffCallback()) {
 
-    private var context: Context? = null
-    // Loại bỏ các tham chiếu Firebase không cần thiết khỏi Adapter
-    // val auth = FirebaseAuth.getInstance()
-    // val database = FirebaseDatabase.getInstance()
-    // val userId = auth.currentUser?.uid
-    // val cartRef = userId?.let { database.getReference("Users").child(it).child("Cart") }
+    // Sử dụng định dạng tiền tệ Việt Nam (VNĐ)
+    private val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
 
-
-    inner class ViewHolder(private val binding: ViewholderCartItemBinding) :
+    inner class CartViewHolder(private val binding: ViewholderCartItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(pair: Pair<CartItem, String>) {
-            val item = pair.first // CartItem object
-            val itemKey = pair.second // Firebase Key
-
+        fun bind(item: CartItem) {
             // 1. Tên phim
             binding.tvItemName.text = item.filmTitle
 
-            // 2. Giá tiền đơn vị
-            // Hiển thị giá và định dạng VNĐ (Giả định tvItemPrice là TextView trong viewholder_cart_item.xml)
-            binding.tvItemPrice.text = "${String.format("%,.0f", item.ticketPrice)} VNĐ"
+            // 2. TỔNG GIÁ cho gói vé này (filmPrice * quantity)
+            // Thay vì hiển thị giá 1 vé, ta hiển thị tổng tiền cho cả gói vé.
+            val totalCost = item.filmPrice * item.quantity
+            binding.tvItemPrice.text = formatter.format(totalCost)
 
-            // 3. Chi tiết (Ngày, Giờ, Ghế)
-            binding.tvItemDetails.text = "Ngày: ${item.showDate} | Giờ: ${item.showTime} | Ghế: ${item.selectedSeats}"
+            // 3. Chi tiết: Ngày | Giờ | Ghế
+            val seatString = item.seatNames.joinToString(", ")
+            // Bổ sung thêm giá 1 vé vào chi tiết để thông tin đầy đủ hơn
+            val singlePriceFormatted = formatter.format(item.filmPrice)
+            binding.tvItemDetails.text = "Giá 1 vé: $singlePriceFormatted | Ngày: ${item.selectedDate} | Giờ: ${item.selectedTime} | Ghế: $seatString"
 
-            // 4. Số lượng
+            // 4. Số lượng vé (tức là số lượng ghế)
             binding.tvQuantity.text = item.quantity.toString()
 
-            // 5. Hình ảnh Poster
-            context?.let { ctx ->
-                Glide.with(ctx)
-                    .load(item.filmPoster)
-                    .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(10)))
-                    // Placeholder và Error (Giả định có sẵn R.drawable.movie_placeholder, ic_broken_image)
-                    .placeholder(R.drawable.bg_green_rounded)
-                    .error(R.drawable.light_black_bg)
-                    .into(binding.ivItemImage)
-            }
-
-            // Xử lý tương tác:
-
-            // Nút Giảm số lượng
-            binding.btnQuantityMinus.setOnClickListener {
-                if (item.quantity > 1) {
-                    item.quantity--
-                    // Cập nhật giao diện cục bộ
-                    notifyItemChanged(adapterPosition)
-                    // Yêu cầu Fragment cập nhật DB và tổng tiền
-                    listener.onQuantityChanged(itemKey, item.quantity)
-                }
-            }
-
-            // Nút Tăng số lượng
-            binding.btnQuantityPlus.setOnClickListener {
-                item.quantity++
-                // Cập nhật giao diện cục bộ
-                notifyItemChanged(adapterPosition)
-                // Yêu cầu Fragment cập nhật DB và tổng tiền
-                listener.onQuantityChanged(itemKey, item.quantity)
-            }
-
-            // Nút Xóa mục
+            // 5. Nút Xóa (btnRemoveItem)
             binding.btnRemoveItem.setOnClickListener {
-                // Yêu cầu Fragment xóa mục này khỏi DB
-                listener.onRemoveItem(itemKey)
+                item.cartItemId?.let { id -> listener.onRemoveItem(id) }
             }
+
+            // Do CartItem đại diện cho một gói vé đã chọn số lượng ghế,
+            // chúng ta ẩn nút tăng/giảm số lượng để tránh thay đổi gói vé.
+            binding.clQuantityControl.visibility = ViewGroup.GONE
+
+            // Placeholder: Sử dụng màu nền cho ảnh nếu không có URL ảnh
+            binding.ivItemImage.setBackgroundResource(R.drawable.bg_green_rounded)
+            // Nếu có URL ảnh phim, bạn sẽ sử dụng Glide/Picasso để tải ở đây.
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        context = parent.context
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val binding = ViewholderCartItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ViewHolder(binding)
+        return CartViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount(): Int = items.size
 
     /**
-     * Hàm tiện ích để cập nhật dữ liệu.
+     * DiffUtil callback để tối ưu hóa việc cập nhật RecyclerView.
      */
-    fun updateData(newItems: List<Pair<CartItem, String>>) {
-        items.clear()
-        items.addAll(newItems)
-        notifyDataSetChanged()
-        listener.onCartChanged() // Cập nhật tổng tiền sau khi thay đổi dữ liệu
+    private class CartItemDiffCallback : DiffUtil.ItemCallback<CartItem>() {
+        override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+            return oldItem.cartItemId == newItem.cartItemId
+        }
+
+        // Tối ưu hóa: ListAdapter tự động kiểm tra nội dung,
+        // nhưng nên giữ lại việc so sánh trực tiếp model data class để đảm bảo
+        override fun areContentsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+            return oldItem == newItem
+        }
     }
 }

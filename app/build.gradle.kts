@@ -47,6 +47,19 @@ dependencies {
 
     implementation("com.github.Dimezis:BlurView:version-1.6.6")
 
+    // --- DEPENDENCIES MỚI CHO API/NETWORK VÀ COROUTINES ---
+    // Retrofit cho các cuộc gọi API REST
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    // Converter để tự động phân tích JSON sang các data class Kotlin
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    // Kotlin Coroutines cho ViewModels và lifecycleScope
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    // Lifecycle runtime ktx (cần cho flow)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    // ----------------------------------------------------
+
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    // Cần thiết cho delegate 'by viewModels()' trong Fragment
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.viewpager2)

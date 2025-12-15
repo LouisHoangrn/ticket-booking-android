@@ -1,34 +1,20 @@
 package com.finalexam.project.model
 
-import com.google.firebase.database.IgnoreExtraProperties
-import java.io.Serializable
-
 /**
- * Data class đại diện cho một mục vé trong Giỏ hàng (Cart).
- * Chứa thông tin chi tiết về phim, suất chiếu, và số lượng/ghế.
+ * Model đại diện cho một gói vé được thêm vào giỏ hàng.
+ * Sử dụng cho Firebase Realtime Database.
  */
-@IgnoreExtraProperties
 data class CartItem(
-    var filmId: String? = null,
-    var filmTitle: String? = null,
-    var filmPoster: String? = null,
-    var showDate: String? = null,
-    var showTime: String? = null,
-    // Giá tiền cho MỘT vé
-    var ticketPrice: Double = 0.0,
-    // Số lượng vé đã chọn
-    var quantity: Int = 1,
-    // Danh sách các ghế đã chọn (được lưu dưới dạng String hoặc List<String> tùy cách bạn triển khai)
-    var selectedSeats: String? = null
-) : Serializable
-{
-    // Constructor không tham số (BẮT BUỘC cho Firebase Realtime Database)
-    constructor() : this(
-        null, null, null, null, null,
-        0.0, 1, null
-    )
-
-    // Tính tổng tiền của riêng mục này
-    val totalPrice: Double
-        get() = ticketPrice * quantity
-}
+    // Tên thuộc tính: cartItemId, filmTitle, filmPrice, quantity, totalPrice
+    var cartItemId: String? = null, // Key duy nhất từ Firebase
+    val filmId: Int = 0,
+    val filmTitle: String = "",
+    val filmPrice: Double = 0.0, // Giá 1 vé
+    val selectedDate: String = "",
+    val selectedTime: String = "",
+    val seatNames: List<String> = emptyList(), // Danh sách tên ghế (ví dụ: ["A1", "A2"])
+    val quantity: Int = 0, // Số lượng vé
+    // Thuộc tính totalPrice: Nên tính toán để tránh sai sót, nhưng giữ lại để đồng bộ với Firebase
+    val totalPrice: Double = 0.0, // Tổng giá = filmPrice * quantity
+    val timestamp: Long = System.currentTimeMillis() // Thời điểm thêm vào giỏ hàng
+)

@@ -35,7 +35,34 @@
         tools:listitem="@layout/viewholder_cart_item"
         tools:itemCount="3" />
 
-    <!-- Thanh toán/Tổng cộng (Checkout Section) -->
+    <!-- Loading State -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/yellow"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recyclerViewCart"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerViewCart"/>
+
+    <!-- Empty State (ID: emptyCartText) -->
+    <TextView
+        android:id="@+id/emptyCartText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giỏ hàng trống! Hãy chọn vé bạn muốn."
+        android:textColor="#A0A0A0"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recyclerViewCart"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerViewCart"/>
+
+
+    <!-- Thanh toán/Tổng cộng (Checkout Section) (ID: clCheckout) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clCheckout"
         android:layout_width="0dp"
@@ -57,25 +84,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Tổng tiền (ID: tvTotalPrice) -->
         <TextView
             android:id="@+id/tvTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 VNĐ"
+            tools:text="150.000 VNĐ"
             android:textColor="@color/yellow"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Nút Checkout (ID: checkoutButton) -->
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCheckout"
+            android:id="@+id/checkoutButton"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bg_green_rounded"
-            android:text="Thanh Toán Ngay"
-            android:textColor="@color/white"
+            android:background="@drawable/yellow_bg"
+            tools:text="Thanh Toán 150.000 VNĐ"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
