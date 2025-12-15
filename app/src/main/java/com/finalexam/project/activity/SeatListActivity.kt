@@ -75,7 +75,7 @@ class SeatListActivity : AppCompatActivity(),
     private fun setupDateRecyclerView() {
         // Mock Data for Dates
         val dates = listOf("Mon/15/Apr", "Tue/16/Apr", "Wed/17/Apr", "Thu/18/Apr", "Fri/19/Apr")
-        // 'this' bây giờ là DateAdapter.OnDateSelectedListener (vì đã được khai báo ở trên)
+        // 'this ' bây giờ là DateAdapter.OnDateSelectedListener (vì đã được khai báo ở trên)
         val dateAdapter = DateAdapter(dates, this)
         binding.dateRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@SeatListActivity, LinearLayoutManager.HORIZONTAL, false)

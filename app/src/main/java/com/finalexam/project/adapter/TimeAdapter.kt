@@ -7,7 +7,7 @@ import com.finalexam.project.R
 import com.finalexam.project.databinding.ItemTimeBinding
 
 /**
- * Adapter cho danh sách giờ chiếu  , sử dụng View Binding.
+ * Adapter cho danh sách giờ chiếu   , sử dụng View Binding.
  */
 class TimeAdapter(
     private val timeSlots: List<String>,

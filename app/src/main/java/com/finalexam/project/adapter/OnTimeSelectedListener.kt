@@ -1,7 +1,7 @@
 package com.finalexam.project.adapter
 
 /**
- * Interface để t ruyền d ữ liệu giờ được chọn từ TimeAdapter về Activity/Fragment.
+ * Interface để t ruyền d  ữ liệu giờ được chọn từ TimeAdapter về Activity/Fragment.
  */
 interface OnTimeSelectedListener {
     /**

@@ -7,7 +7,7 @@ import com.finalexam.project.R
 import com.finalexam.project.databinding.ItemDateBinding
 
 /**
- * Adapter cho danh sách ngày (Dat e), sử dụng View Binding.
+ * Adapter cho danh sách ngày (Dat  e), sử dụng View Binding.
  */
 class DateAdapter(
     private val timeSlots: List<String>,

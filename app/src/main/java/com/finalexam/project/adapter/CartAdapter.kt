@@ -12,7 +12,7 @@ import java.text.NumberFormat
 import java.util.Locale
 
 /**
- * Interface cho các hành động trê n item giỏ hàng (hiện tại là Xóa).
+ * Interface cho các hành động trê  n item giỏ hàng (hiện tại là Xóa).
  */
 interface CartActionListener {
     fun onRemoveItem(cartItemId: String)
